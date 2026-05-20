@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Mariana V
  */
-public class Venta {
+public class Venta implements Serializable{
     private int numero;
     private LocalDateTime fechaHoraGeneracion; //Formato: aaaa-dd-mm hh:mm:ss - tomada del sistema
     private LocalDateTime fechaHoraActualizacion; //Al momento de la creación, se toma la misma de generación
@@ -19,13 +20,13 @@ public class Venta {
     private ArrayList<PaqueteTuristico> susPaquetesTuristicos;
     private char estado; //Dominio: {A, P, C} - A: activa (por defecto), P: pago, C: cancelada
 
-    public Venta(int numero, LocalDateTime fechaHoraGeneracion, LocalDateTime fechaHoraActualizacion, Cliente suCliente, ArrayList<PaqueteTuristico> susPaquetesTuristicos, char estado) {
+    public Venta(int numero, Cliente suCliente, ArrayList<PaqueteTuristico> susPaquetesTuristicos) {
         this.numero = numero;
-        this.fechaHoraGeneracion = fechaHoraGeneracion;
-        this.fechaHoraActualizacion = fechaHoraActualizacion;
+        this.fechaHoraGeneracion = LocalDateTime.now();
+        this.fechaHoraActualizacion = LocalDateTime.now();
         this.suCliente = suCliente;
         this.susPaquetesTuristicos = susPaquetesTuristicos;
-        this.estado = estado;
+        this.estado = 'A';
     }
 
     public int getNumero() {
