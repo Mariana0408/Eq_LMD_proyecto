@@ -1228,9 +1228,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField13">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jTextField13"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

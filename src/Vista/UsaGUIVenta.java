@@ -1020,8 +1020,6 @@ ArrayList<PaqueteTuristico> listaPaquetes = new ArrayList<>();
         jLabel23.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel23.setText("Vuelo");
 
-        jTextField13.setText("jTextField13");
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
