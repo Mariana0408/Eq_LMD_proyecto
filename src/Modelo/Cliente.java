@@ -15,7 +15,7 @@ public class Cliente implements Serializable {
     private String numeroIdentificacion; //cédula: mínimo 6 dígitos, nit: 9 digiitos
     private boolean empresa;//true si es empresa, false si es persona natural
     private String nombre; //Si persona: nombre completo. Si empresa: razón social
-    private String email;
+    private String email; //email de la persona
     private String telefono; //persona: móvil o fijo. empresa: fijo
     private String nombreContacto; //si persona natural puede ser el mismo nombre del cliente
     private double porcentajeDescuento; //Mínimo: 0.0, Máximo: 70.0
