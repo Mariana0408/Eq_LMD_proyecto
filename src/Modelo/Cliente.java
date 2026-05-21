@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author Mariana V
  */
 public class Cliente implements Serializable {
-    private char tipoIdentificacion; //Dominio: {C, N} - C: cédula, N: Nit
+    private char tipoIdentificacion; //Dominio: {C, N} - C: cédula, N: Nit 
     private String numeroIdentificacion; //cédula: mínimo 6 dígitos, nit: 9 digiitos
     private boolean empresa;//true si es empresa, false si es persona natural
     private String nombre; //Si persona: nombre completo. Si empresa: razón social
