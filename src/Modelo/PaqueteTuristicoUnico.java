@@ -23,6 +23,7 @@ public final class PaqueteTuristicoUnico extends PaqueteTuristico {
     public PaqueteTuristicoUnico(String nombreHotel, String codigo, String nombre, String tipologiaTurismo, String descripcion, String origen, ArrayList<Destino> susDestinos, boolean hotel, boolean alimentacion, boolean alimentacionTodo, boolean vuelo, boolean asistencia, int tarifaDia, int cantidadUnidades) {
         super(codigo, nombre, tipologiaTurismo, descripcion, origen, susDestinos, hotel, alimentacion, alimentacionTodo, vuelo, asistencia, tarifaDia, cantidadUnidades);
         this.nombreHotel = nombreHotel;
+        this.tipoDesayuno = "";
     }
 
     public String getNombreHotel() {
@@ -44,9 +45,9 @@ public final class PaqueteTuristicoUnico extends PaqueteTuristico {
     @Override
     public String toString() {
         return "PaqueteTuristicoUnico{" 
-                + super.toString() 
-                + "nombreHotel=" + nombreHotel 
-                + ", tipoDesayuno=" + tipoDesayuno + '}';
+                +"   "+ super.toString() 
+                + "  nombreHotel=" + nombreHotel 
+                + ", <<tipoDesayuno=" + tipoDesayuno + '}';
     }
     @Override
     public int calcularValorUnidad() {

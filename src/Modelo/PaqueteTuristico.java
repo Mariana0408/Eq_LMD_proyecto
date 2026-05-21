@@ -5,13 +5,14 @@
 package Modelo;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Mariana Vivero
  */
-public abstract class PaqueteTuristico {
+public abstract class PaqueteTuristico implements Serializable {
     protected String codigo;
     protected String nombre; //mínimo 10 caracteres
     protected String tipologiaTurismo; //ej. negocios, recreación, educativo, ecológico

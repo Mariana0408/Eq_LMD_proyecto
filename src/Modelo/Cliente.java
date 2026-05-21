@@ -1,16 +1,18 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mariana V
  */
-public class Cliente {
+public class Cliente implements Serializable {
     private char tipoIdentificacion; //Dominio: {C, N} - C: cédula, N: Nit
-    private String numeroIdentificacion; //cédula: mínimo 6 dígitos, nit: 9 dígitos
+    private String numeroIdentificacion; //cédula: mínimo 6 dígitos, nit: 9 digiitos
     private boolean empresa;//true si es empresa, false si es persona natural
     private String nombre; //Si persona: nombre completo. Si empresa: razón social
     private String email;
