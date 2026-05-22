@@ -606,6 +606,11 @@ ArrayList<PaqueteTuristico> listaPaquetes = new ArrayList<>();
         jLabel31.setText("Obsequio");
 
         jButtonLimpiarpaqueteturisticoM.setText("Limpiar");
+        jButtonLimpiarpaqueteturisticoM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimpiarpaqueteturisticoMActionPerformed(evt);
+            }
+        });
 
         jButtonguardarpaquetemultiple.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButtonguardarpaquetemultiple.setText("Guardar");
@@ -992,6 +997,11 @@ ArrayList<PaqueteTuristico> listaPaquetes = new ArrayList<>();
         jLabel29.setText("TipoDesayuno (Opcional)");
 
         jButtonLimpiarpaqueteturisticoU.setText("Limpiar");
+        jButtonLimpiarpaqueteturisticoU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimpiarpaqueteturisticoUActionPerformed(evt);
+            }
+        });
 
         jButtonguardarpaqueteunico.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButtonguardarpaqueteunico.setText("Guardar");
@@ -1281,36 +1291,47 @@ ArrayList<PaqueteTuristico> listaPaquetes = new ArrayList<>();
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void jButtonConsultartodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultartodoActionPerformed
-        jTextArea1.setText(consultarTodasVentas(datosVentas));;// TODO add your handling code here:
+        if (datosVentas.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "No hay ventas registradas.");
+} else {
+    jTextArea1.setText(consultarTodasVentas(datosVentas));}// TODO add your handling code here:
     }//GEN-LAST:event_jButtonConsultartodoActionPerformed
 
     private void jButtonQNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQNumeroActionPerformed
-        jTextArea1.setText(consultarVentaDadoNumero(datosVentas, Integer.parseInt(jTextoFiltrar.getText())));// TODO add your handling code here:
+       if (jTextoFiltrar.getText().trim().isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Escribe un número en el campo FILTRAR.");
+} else {
+    jTextArea1.setText(consultarVentaDadoNumero(datosVentas, Integer.parseInt(jTextoFiltrar.getText().trim())));}// TODO add your handling code here:
     }//GEN-LAST:event_jButtonQNumeroActionPerformed
 
     private void jButtonQPrimeraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQPrimeraActionPerformed
-        jTextArea1.setText(consultarVentaDadaPosicion(datosVentas, 'P'));// TODO add your handling code here:
+    if (datosVentas.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "No hay ventas registradas.");
+} else {
+    jTextArea1.setText(consultarVentaDadaPosicion(datosVentas, 'P'));
+}// TODO add your handling code here:
     }//GEN-LAST:event_jButtonQPrimeraActionPerformed
 
     private void jButtonguardarventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonguardarventaActionPerformed
         
     
-    Cliente clienteVenta = datosClientes.get(datosClientes.size()-1);
-
-    int numeroVenta = generarNumeroVenta(datosVentas);
-
-    Venta objVenta = new Venta(numeroVenta, clienteVenta, new ArrayList<>(listaPaquetes));
-    datosVentas.add(objVenta);
-
-    jTextFieldnumeroventa.setText(String.valueOf(objVenta.getNumero()));
-    jTextField2.setText(objVenta.getFechaHoraGeneracion().toString());
-    jTextField3.setText(objVenta.getFechaHoraActualizacion().toString());
-    jTextFieldestadoventa.setText(String.valueOf(objVenta.getEstado()));
-
-    listaPaquetes.clear();
-    listaDestinos.clear();
-
-    JOptionPane.showMessageDialog(null, "Venta registrada correctamente.");// TODO add your handling code here:
+ if (datosClientes.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Primero guarde el cliente.");
+    return;
+}
+if (listaPaquetes.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Primero guarde al menos un paquete.");
+    return;
+}
+Cliente clienteVenta = datosClientes.get(datosClientes.size() - 1);
+int numeroVenta = generarNumeroVenta(datosVentas);
+Venta objVenta = new Venta(numeroVenta, clienteVenta, new ArrayList<>(listaPaquetes));
+datosVentas.add(objVenta);
+jTextFieldnumeroventa.setText(String.valueOf(objVenta.getNumero()));
+jTextFieldestadoventa.setText(String.valueOf(objVenta.getEstado()));
+listaPaquetes.clear();
+listaDestinos.clear();
+JOptionPane.showMessageDialog(null, "Venta registrada correctamente.");// TODO add your handling code here:
     }//GEN-LAST:event_jButtonguardarventaActionPerformed
 
     private void jButtonGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarClienteActionPerformed
@@ -1319,12 +1340,12 @@ ArrayList<PaqueteTuristico> listaPaquetes = new ArrayList<>();
     Cliente objCliente = new Cliente(
         jTextFieldID.getText().toUpperCase().charAt(0),
         jTextFieldNumeroID.getText(),
-        jTextFieldEmpresa.getText().toUpperCase().charAt(0) == 'S',
+        jTextFieldEmpresa.getText().toUpperCase().startsWith("S"),
+        jTextFieldNombre.getText(),
+        jTextFieldemail.getText(),
         jTextFieldtelefono.getText(),
         jTextFieldnombrecontacto.getText(),
-        jTextFieldporcentajedescuento.getText(),
-        jTextFieldemail.getText(),
-        Double.parseDouble(jTextFieldNombre.getText())
+        Double.parseDouble(jTextFieldporcentajedescuento.getText())
     );
 
     datosClientes.add(objCliente);
@@ -1335,54 +1356,46 @@ ArrayList<PaqueteTuristico> listaPaquetes = new ArrayList<>();
     private void jButtonGuardarpaqueteturisticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarpaqueteturisticoActionPerformed
    
     String categoria = jComboBox1.getSelectedItem().toString();
+ArrayList<Destino> destinosCopia = new ArrayList<>(listaDestinos);
 
-    ArrayList<Destino> destinosCopia = new ArrayList<>(listaDestinos); // ← COPIA, no referencia
+boolean hotel        = jTextFieldhotelpaquete.getText().toUpperCase().startsWith("S");
+boolean alimentacion = jTextFieldalimentacion.getText().toUpperCase().startsWith("S");
+boolean alimTodo     = jTextFielalimentaciontodo.getText().toUpperCase().startsWith("S");
+boolean vuelo        = jTextFieldvuelo.getText().toUpperCase().startsWith("S");
+boolean asistencia   = jTextFielasistencia.getText().toUpperCase().startsWith("S");
+int tarifa   = jTextFieldtarifadia.getText().trim().isEmpty() ? 0 : Integer.parseInt(jTextFieldtarifadia.getText().trim());
+int cantidad = jTextFieldcantidadunidades.getText().trim().isEmpty() ? 0 : Integer.parseInt(jTextFieldcantidadunidades.getText().trim());
 
-    boolean hotel        = jTextFieldtipologiaturismo.getText().toUpperCase().startsWith("S");
-    boolean alimentacion = jTextFieldalimentacion.getText().toUpperCase().startsWith("S");
-    boolean alimTodo     = jTextFielasistencia.getText().toUpperCase().startsWith("S");
-    boolean vuelo        = jTextFielalimentaciontodo.getText().toUpperCase().startsWith("S");
-    boolean asistencia   = jTextFieldnombrepaqueteturistico.getText().toUpperCase().startsWith("S");
-
-    if (categoria.equals("PaqueteTuristicoUnico")) {
-
-        PaqueteTuristicoUnico objPaqueteUnico = new PaqueteTuristicoUnico(
-            jTextFieldTipohotel.getText(),
-            jTextFieldtipodesayuno.getText(),
-            jTextFieldvuelo.getText(),
-            jTextFieldtarifadia.getText(),
-            jTextFielddescripcionpaquete.getText(),
-            jTextFieldorigen.getText(),
-            jTextFieldhotelpaquete.getText(),
-            destinosCopia,          // ← ya no es listaDestinos directo
-            hotel, alimentacion, alimTodo, vuelo, asistencia,
-            Integer.parseInt(jTextFieldcodigopaquete.getText()),
-            Integer.parseInt(jTextFieldcantidadunidades.getText())
-        );
-
-        listaPaquetes.add(objPaqueteUnico);
-
-    } else {
-
-        PaqueteTuristicoMultiple objPaqueteMultiple = new PaqueteTuristicoMultiple(
-            jTextFieldobsequio.getText(),
-            jTextFieldvuelo.getText(),
-            jTextFieldtarifadia.getText(),
-            jTextFielddescripcionpaquete.getText(),
-            jTextFieldorigen.getText(),
-            jTextFieldhotelpaquete.getText(),
-            destinosCopia,          // ← ya no es listaDestinos directo
-            hotel, alimentacion, alimTodo, vuelo, asistencia,
-            Integer.parseInt(jTextFieldcodigopaquete.getText()),
-            Integer.parseInt(jTextFieldcantidadunidades.getText())
-        );
-
-        listaPaquetes.add(objPaqueteMultiple);
-    }
-
-    listaDestinos.clear(); // ← limpia para el próximo paquete
-
-    JOptionPane.showMessageDialog(null, "Paquete registrado correctamente.");
+if (categoria.equals("PaqueteTuristicoUnico")) {
+    PaqueteTuristicoUnico objPaqueteUnico = new PaqueteTuristicoUnico(
+        jTextFieldTipohotel.getText(),
+        jTextFieldtipodesayuno.getText(),
+        jTextFieldcodigopaquete.getText(),
+        jTextFieldnombrepaqueteturistico.getText(),
+        jTextFieldtipologiaturismo.getText(),
+        jTextFielddescripcionpaquete.getText(),
+        jTextFieldorigen.getText(),
+        destinosCopia,
+        hotel, alimentacion, alimTodo, vuelo, asistencia,
+        tarifa, cantidad
+    );
+    listaPaquetes.add(objPaqueteUnico);
+} else {
+    PaqueteTuristicoMultiple objPaqueteMultiple = new PaqueteTuristicoMultiple(
+        jTextFieldobsequio.getText(),
+        jTextFieldcodigopaquete.getText(),
+        jTextFieldnombrepaqueteturistico.getText(),
+        jTextFieldtipologiaturismo.getText(),
+        jTextFielddescripcionpaquete.getText(),
+        jTextFieldorigen.getText(),
+        destinosCopia,
+        hotel, alimentacion, alimTodo, vuelo, asistencia,
+        tarifa, cantidad
+    );
+    listaPaquetes.add(objPaqueteMultiple);
+}
+listaDestinos.clear();
+JOptionPane.showMessageDialog(null, "Paquete registrado correctamente. Total paquetes: " + listaPaquetes.size());
 // TODO add your handling code here:
     }//GEN-LAST:event_jButtonGuardarpaqueteturisticoActionPerformed
 
@@ -1391,12 +1404,36 @@ ArrayList<PaqueteTuristico> listaPaquetes = new ArrayList<>();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButtonguardarpaquetemultipleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonguardarpaquetemultipleActionPerformed
-    jTextFieldTipohotel.setText("");
-    jTextFieldtipodesayuno.setText("");// TODO add your handling code here:
+        jTextFieldTipohotel.setText("");
+    jTextFieldtipodesayuno.setText("");
+    jTextFieldcodigopaquete.setText("");
+    jTextFieldnombrepaqueteturistico.setText("");
+    jTextFieldtipologiaturismo.setText("");
+    jTextFielddescripcionpaquete.setText("");
+    jTextFieldorigen.setText("");
+    jTextFieldhotelpaquete.setText("");
+    jTextFieldalimentacion.setText("");
+    jTextFielalimentaciontodo.setText("");
+    jTextFielasistencia.setText("");
+    jTextFieldvuelo.setText("");
+    jTextFieldtarifadia.setText("");
+    jTextFieldcantidadunidades.setText("");// TODO add your handling code here:
     }//GEN-LAST:event_jButtonguardarpaquetemultipleActionPerformed
 
     private void jButtonguardarpaqueteunicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonguardarpaqueteunicoActionPerformed
-    jTextFieldobsequio.setText("");   // TODO add your handling code here:
+       jTextFieldobsequio.setText("");
+    jTextFieldcodigopaquete.setText("");
+    jTextFieldnombrepaqueteturistico.setText("");
+    jTextFieldtipologiaturismo.setText("");
+    jTextFielddescripcionpaquete.setText("");
+    jTextFieldorigen.setText("");
+    jTextFieldhotelpaquete.setText("");
+    jTextFieldalimentacion.setText("");
+    jTextFielalimentaciontodo.setText("");
+    jTextFielasistencia.setText("");
+    jTextFieldvuelo.setText("");
+    jTextFieldtarifadia.setText("");
+    jTextFieldcantidadunidades.setText("");   // TODO add your handling code here:
     }//GEN-LAST:event_jButtonguardarpaqueteunicoActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -1408,7 +1445,7 @@ ArrayList<PaqueteTuristico> listaPaquetes = new ArrayList<>();
         jTextFieldnombredesstino.getText(),
         Integer.parseInt(jTextFieldiaspermanenciadestino.getText()),
         atractivos,
-        jTextFieldatractivosincluidos.getText().toUpperCase().charAt(0) == 'S'
+        jTextFieldatractivosincluidos.getText().toUpperCase().startsWith("S")
     );
 
     listaDestinos.add(objDestino);
@@ -1418,30 +1455,46 @@ ArrayList<PaqueteTuristico> listaPaquetes = new ArrayList<>();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButtonQUltimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQUltimaActionPerformed
-        jTextArea1.setText(consultarVentaDadaPosicion(datosVentas, 'U'));
+    if (datosVentas.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "No hay ventas registradas.");
+} else {
+    jTextArea1.setText(consultarVentaDadaPosicion(datosVentas, 'U'));
+}
 // TODO add your handling code here:
     }//GEN-LAST:event_jButtonQUltimaActionPerformed
 
     private void jButtonQEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQEstadoActionPerformed
-        jTextArea1.setText(consultarVentasDadoEstado(datosVentas, jTextoFiltrar.getText().toUpperCase().charAt(0)));        // TODO add your handling code here:
+    if (jTextoFiltrar.getText().trim().isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Escribe un estado en FILTRAR (A, P o C).");
+} else {
+    jTextArea1.setText(consultarVentasDadoEstado(datosVentas, jTextoFiltrar.getText().toUpperCase().charAt(0)));
+}        // TODO add your handling code here:
     }//GEN-LAST:event_jButtonQEstadoActionPerformed
 
     private void jButtonQCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQCategoriaActionPerformed
-        jTextArea1.setText(consultarVentasDadaCategoriaPaquete(datosVentas, jTextoFiltrar.getText()));// TODO add your handling code here:
+        if (!jTextoFiltrar.getText().trim().isEmpty()) {
+        jTextArea1.setText(consultarVentasDadoEstado(datosVentas, jTextoFiltrar.getText().toUpperCase().charAt(0)));
+    } else {
+        JOptionPane.showMessageDialog(null, "Escribe un estado en el campo FILTRAR (ejemplo: A o C).");
+    }// TODO add your handling code here:
     }//GEN-LAST:event_jButtonQCategoriaActionPerformed
 
     private void jButtonActualizarventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarventaActionPerformed
-        actualizarVenta(datosVentas, Integer.parseInt(jTextoFiltrar.getText()), 
-        JOptionPane.showInputDialog("Operación (C: Cancelar, P: Pagar)").toUpperCase().charAt(0));// TODO add your handling code here:
+        if (!jTextoFiltrar.getText().trim().isEmpty()) {
+        actualizarVenta(datosVentas, Integer.parseInt(jTextoFiltrar.getText().trim()),
+        JOptionPane.showInputDialog("Operación (C: Cancelar, P: Pagar)").toUpperCase().charAt(0));
+    } else {
+        JOptionPane.showMessageDialog(null, "Escribe el número de venta en el campo FILTRAR.");
+    }// TODO add your handling code here:
     }//GEN-LAST:event_jButtonActualizarventaActionPerformed
 
     private void jButtonGenerararchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerararchivoActionPerformed
-    generarArchivoObjetosClientes(datosClientes);   // ← CORRECTO
+    generarArchivoObjetosClientes(datosClientes); 
     JOptionPane.showMessageDialog(null, "Archivo de clientes generado.");// TODO add your handling code here:
     }//GEN-LAST:event_jButtonGenerararchivoActionPerformed
 
     private void jButtonLeerarchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLeerarchivoActionPerformed
-    recuperarClientesDesdeArchivoObjetos();          // ← CORRECTO
+    recuperarClientesDesdeArchivoObjetos();
     JOptionPane.showMessageDialog(null, "Clientes recuperados desde archivo.");// TODO add your handling code here:
     }//GEN-LAST:event_jButtonLeerarchivoActionPerformed
 
@@ -1449,6 +1502,39 @@ ArrayList<PaqueteTuristico> listaPaquetes = new ArrayList<>();
     generarArchivoObjetosVentas(datosVentas);
     JOptionPane.showMessageDialog(null, "Archivo de ventas generado.");// TODO add your handling code here:
     }//GEN-LAST:event_jButtonGenerararchivoventaActionPerformed
+
+    private void jButtonLimpiarpaqueteturisticoMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarpaqueteturisticoMActionPerformed
+     jTextFieldobsequio.setText("");
+jTextFieldcodigopaquete.setText("");
+jTextFieldnombrepaqueteturistico.setText("");
+jTextFieldtipologiaturismo.setText("");
+jTextFielddescripcionpaquete.setText("");
+jTextFieldorigen.setText("");
+jTextFieldhotelpaquete.setText("");
+jTextFieldalimentacion.setText("");
+jTextFielalimentaciontodo.setText("");
+jTextFielasistencia.setText("");
+jTextFieldvuelo.setText("");
+jTextFieldtarifadia.setText("");
+jTextFieldcantidadunidades.setText("");   // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonLimpiarpaqueteturisticoMActionPerformed
+
+    private void jButtonLimpiarpaqueteturisticoUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarpaqueteturisticoUActionPerformed
+jTextFieldTipohotel.setText("");
+jTextFieldtipodesayuno.setText("");
+jTextFieldcodigopaquete.setText("");
+jTextFieldnombrepaqueteturistico.setText("");
+jTextFieldtipologiaturismo.setText("");
+jTextFielddescripcionpaquete.setText("");
+jTextFieldorigen.setText("");
+jTextFieldhotelpaquete.setText("");
+jTextFieldalimentacion.setText("");
+jTextFielalimentaciontodo.setText("");
+jTextFielasistencia.setText("");
+jTextFieldvuelo.setText("");
+jTextFieldtarifadia.setText("");
+jTextFieldcantidadunidades.setText("");        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonLimpiarpaqueteturisticoUActionPerformed
 
     /**
      * @param args the command line arguments
